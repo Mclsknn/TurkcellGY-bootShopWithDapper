@@ -25,6 +25,10 @@ namespace bootShop.Business
         {
            await _categoryRepository.Delete(id);
         }
+        public async Task SoftDelete(int id)
+        {
+            await _categoryRepository.SoftDelete(id);
+        }
 
         public async Task<IList<Category>> GetAllEntities()
         {
@@ -48,6 +52,11 @@ namespace bootShop.Business
         public IList<Category> GetAllCategories() 
         {
             return _categoryRepository.GetAllCategories();
+        }
+
+        public async Task<bool> IsExists(int id)
+        {
+            return await _categoryRepository.IsExists(id); 
         }
     }
 }

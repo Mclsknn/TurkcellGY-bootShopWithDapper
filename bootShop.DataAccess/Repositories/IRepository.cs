@@ -14,6 +14,8 @@ namespace bootShop.DataAccess.Repositories
         Task<int> Add(T entity);
         Task<int> Update(T entity);
         Task Delete(int id);
+        Task SoftDelete(int id);
         Task<IList<T>> SearchEntitiesByName(string name);
+        Task<bool> IsExists(int id);
     }
 }

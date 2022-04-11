@@ -33,16 +33,22 @@ namespace bootShop.DataAccess.Repositories.Dapper
             await _db.ExecuteAsync(query, new { @Id = id });
         }
 
+        public async Task SoftDelete(int id)
+        {
+            var query = "Update categories set IsDeleted='True' where Id=@Id";
+            await _db.ExecuteAsync(query, new { @Id = id });
+        }
+
         public IList<Category> GetAllCategories()
         {
-            var query = "select * from categories";
+            var query = "select * from categories where IsDeleted = 0";
             var values = _db.Query<Category>(query);
             return values.ToList();
         }
 
         public async Task<IList<Category>> GetAllEntities()
         {
-            var query = "select * from categories";
+            var query = "select * from categories where IsDeleted = 0";
             var values = await _db.QueryAsync<Category>(query);
             return values.ToList();
         }
@@ -65,6 +71,12 @@ namespace bootShop.DataAccess.Repositories.Dapper
             var query = "update categories set Name=@Name where Id=@Id";
             await _db.QueryAsync(query, new { @Id = entity.Id, @Name = entity.Name });
             return entity.Id;
+        }
+        public async Task<bool> IsExists(int id)
+        {
+            var query = "select count(1) from categories where Id = @Id";
+            var exists = await _db.ExecuteScalarAsync<bool>(query, new { @Id = id });
+            return exists;
         }
     }
 }

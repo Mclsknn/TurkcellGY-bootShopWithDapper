@@ -40,9 +40,19 @@ namespace bootShop.DataAccess.Repositories
             return await _context.Products.FindAsync(id);
         }
 
+        public Task<bool> IsExists(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<IList<Product>> SearchEntitiesByName(string name)
         {
             return await _context.Products.Where(p => p.Name.Contains(name)).ToListAsync();
+        }
+
+        public Task SoftDelete(int id)
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<int> Update(Product entity)

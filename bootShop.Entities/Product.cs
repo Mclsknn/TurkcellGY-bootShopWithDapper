@@ -14,7 +14,7 @@ namespace bootShop.Entities
         public string Name { get; set; }
         public double? Price { get; set; }
         public double? Discount { get; set; }
-        [Required]
+
         public string Description { get; set; }
         public int? CategoryId { get; set; }
         public DateTime? CreatedDate { get; set; }
@@ -22,5 +22,7 @@ namespace bootShop.Entities
         [Required]
         public string ImageUrl { get; set; }
         public Category Category { get; set; }
+        public bool IsDeleted { get; set; }
+
     }
 }

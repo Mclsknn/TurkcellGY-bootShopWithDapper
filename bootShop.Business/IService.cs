@@ -13,7 +13,9 @@ namespace bootShop.Business
         Task<int> AddEntity(T t);
         Task<T> GetEntityById(int id);
         Task Delete(int id);
+        Task SoftDelete(int id);
         Task<IList<T>> GetEntitiesByName(string name);
         Task<int> UpdateEntity(T t);
+        Task<bool> IsExists(int id);
     }
 }

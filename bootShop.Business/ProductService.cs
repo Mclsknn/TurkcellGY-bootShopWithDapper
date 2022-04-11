@@ -27,6 +27,10 @@ namespace bootShop.Business
         {
             await _productRepository.Delete(id);
         }
+        public async Task SoftDelete(int id)
+        {
+            await _productRepository.SoftDelete(id);
+        }
 
         public async Task<IList<Product>> GetAllEntities()
         {
@@ -46,6 +50,10 @@ namespace bootShop.Business
         public async Task<int> UpdateEntity(Product product)
         {
             return await _productRepository.Update(product);
+        }
+        public async Task<bool> IsExists(int id)
+        {
+            return await _productRepository.IsExists(id);
         }
 
     }

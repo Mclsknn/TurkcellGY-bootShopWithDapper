@@ -74,8 +74,13 @@ namespace bootShop.Web.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            await _productService.Delete(id);
-            return RedirectToAction("Index", "Products");
+            if (await _productService.IsExists(id))
+            {
+                await _productService.SoftDelete(id);
+                return RedirectToAction("Index", "Products");
+            }
+
+            return NotFound();
         }
     }
 }
