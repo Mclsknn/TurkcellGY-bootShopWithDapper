@@ -1,7 +1,9 @@
 using bootShop.Business;
+using bootShop.Business.MapperProfile;
 using bootShop.DataAccess.Data;
 using bootShop.DataAccess.Repositories;
 using bootShop.DataAccess.Repositories.Dapper;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -13,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
 
 namespace bootShop.Web
 {
@@ -31,10 +34,20 @@ namespace bootShop.Web
             services.AddControllersWithViews();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IUserService, UserService>();
             services.AddScoped<IProductRepository, DapperProductRepository>();
             services.AddScoped<ICategoryRepository, DapperCategoryRepository>();
+
             var connectionString = Configuration.GetConnectionString("db");
             services.AddDbContext<bootShopDbContext>(options => options.UseSqlServer(connectionString));
+            services.AddAutoMapper(typeof(MapProfile));
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                    .AddCookie(options =>
+                    {
+                        options.LoginPath = "/Users/Login";
+                        options.AccessDeniedPath = "/Users/AccessDenied";
+                    });
 
         }
 
@@ -55,7 +68,7 @@ namespace bootShop.Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -65,7 +78,7 @@ namespace bootShop.Web
                 endpoints.MapControllerRoute(
                 name: "",
                 pattern: "{category}/{catId}/Sayfa/{page}",
-                defaults: new { controller = "Home", action = "Index", catId = 1 ,page = 1 });
+                defaults: new { controller = "Home", action = "Index", catId = 1, page = 1 });
 
 
 

@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - bootShop.Web</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/alertify/css/alertify.min.css"/>
 </head>
 <body>
     <header>
@@ -24,6 +25,14 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            @if (@User.Identity.IsAuthenticated) { 
+                                <a class="nav-link text-dark" asp-action="Logout" asp-controller="Users" >Hoşgeldin @User.Identity.Name (Çıkış Yap)</a>
+                            }else
+                            {
+                                <a class="nav-link text-dark" asp-action="Logout" asp-controller="Users" >Giriş Yap</a>
+                            }
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -34,16 +43,16 @@
             <div class="row">
 
                 <div class="col-md-3">
-                     @await Component.InvokeAsync("Menu")
-                     <a asp-action="Index" asp-controller="Products" class="list-group-item list-group-item-action" >Products</a>
-                     <a asp-action="Index" asp-controller="Categories" class="list-group-item list-group-item-action" >Categories</a>
+                    @await Component.InvokeAsync("Menu")
+                    <a asp-action="Index" asp-controller="Products" class="list-group-item list-group-item-action">Products</a>
+                    <a asp-action="Index" asp-controller="Categories" class="list-group-item list-group-item-action">Categories</a>
                 </div>
-                
+
                 <div class="col-md-9">
                     @RenderBody()
                 </div>
             </div>
-            
+
         </main>
     </div>
 
@@ -55,6 +64,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/alertify/alertify.min.js" ></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

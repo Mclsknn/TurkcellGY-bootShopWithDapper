@@ -71,9 +71,10 @@ namespace bootShop.DataAccess.Repositories.Dapper
 
         public async Task<int> Update(Product entity)
         {
+            
             var query = "update Products set Name=@Name,Price=@Price,Discount=@Discount,Description=@Description,CategoryId=@CategoryId,ModifiedDate=@ModifiedDate,ImageUrl=@ImageUrl where Id=@Id";                                     
-            await _db.QueryAsync(query, new {@Id=entity.Id,@Name=entity.Name, @Price = entity.Price , @Discount=entity.Discount,@Description=entity.Description,@CategoryId=entity.CategoryId,@ModifiedDate=DateTime.Now,@ImageUrl=entity.ImageUrl});
-            return entity.Id;
+           // await _db.QueryAsync(query, new {@Id=entity.Id,@Name=entity.Name, @Price = entity.Price , @Discount=entity.Discount,@Description=entity.Description,@CategoryId=entity.CategoryId,@ModifiedDate=DateTime.Now,@ImageUrl=entity.ImageUrl});
+            return await _db.ExecuteAsync(query, new { @Id = entity.Id, @Name = entity.Name, @Price = entity.Price, @Discount = entity.Discount, @Description = entity.Description, @CategoryId = entity.CategoryId, @ModifiedDate = DateTime.Now, @ImageUrl = entity.ImageUrl });
         }
 
         public async Task<bool> IsExists(int id)
